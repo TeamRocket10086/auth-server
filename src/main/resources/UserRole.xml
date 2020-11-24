@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+        version="2.0">
+
+    <entity class="com.bfs.authserver.pojo.UserRole">
+        <table name="UserRole" schema="employee" catalog=""/>
+        <attributes>
+            <id name="id">
+                <column name="ID" precision="-1"/>
+            </id>
+            <basic name="activeFlag">
+                <column name="ActiveFlag" precision="-1"/>
+            </basic>
+            <basic name="createDate">
+                <column name="CreateDate" length="45"/>
+            </basic>
+            <basic name="modificationDate">
+                <column name="ModificationDate" length="45"/>
+            </basic>
+            <basic name="lastModificationUser">
+                <column name="LastModificationUser" length="45"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>
