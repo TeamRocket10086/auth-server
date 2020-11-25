@@ -25,6 +25,19 @@ public class JwtUtil {
 
         return builder.compact();
     }
+    //test register
+    public static String generateRegisterToken(String signingKey, String subject, String email) {
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+
+        JwtBuilder builder = Jwts.builder()
+                .setSubject(subject)
+                .claim("email", email)
+                .setIssuedAt(now)
+                .signWith(SignatureAlgorithm.HS256, signingKey);
+
+        return builder.compact();
+    }
 
     public static String getSubject(HttpServletRequest httpServletRequest, String jwtTokenCookieName, String signingKey){
         String token = CookieUtil.getValue(httpServletRequest, jwtTokenCookieName);

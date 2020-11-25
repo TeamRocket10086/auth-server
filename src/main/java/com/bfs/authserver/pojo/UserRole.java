@@ -16,6 +16,7 @@ public class UserRole implements Serializable {
     private String lastModificationUser;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;
@@ -31,7 +32,7 @@ public class UserRole implements Serializable {
 //    @JoinColumn(name = "UserID")
 //    private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "UserID")
     public User getUser(){
         return this.user;
@@ -41,7 +42,7 @@ public class UserRole implements Serializable {
         this.user = user;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "RoleID")
     public Role getRole(){
         return this.role;

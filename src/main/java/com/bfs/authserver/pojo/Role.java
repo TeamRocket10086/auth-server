@@ -3,6 +3,7 @@ package com.bfs.authserver.pojo;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "Role", schema = "employee")
@@ -14,10 +15,12 @@ public class Role implements Serializable {
     private String modificationDate;
     private String lastModificationUser;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "role")
-    private UserRole userRole;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
+    private Set<UserRole> userRoleSet;
+
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
     public Integer getId() {
         return id;

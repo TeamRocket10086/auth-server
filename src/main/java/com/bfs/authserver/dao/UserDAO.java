@@ -81,18 +81,31 @@ public class UserDAO extends AbstractHibernateDAO<User> {
         return role.getRoleName();
     }
 
-    public void saveUser(User user){
+    public Role getRoleByRoleName(String roleName){
+
+        String hql = "from Role where roleName = ?1";
+        Query query = getCurrentSession().createQuery(hql);
+        query.setParameter(1, roleName);
+        List<Role> list = query.getResultList();
+        if(list == null ||list.size() == 0){
+            return null;
+        }
+        return list.get(0);
+    }
+
+    public void createUser(User user){
 
         LocalDate date = LocalDate.now();
         user.setCreateDate(date.toString());
         user.setModificationDate(date.toString());
 
-        Role role = new Role();
-        role.setRoleName("EMPLOYEE");
-        role.setDescription("EMPLOYEE");
-        role.setCreateDate(date.toString());
-        role.setModificationDate(date.toString());
-        role.setLastModificationUser("Register Employee");
+//        Role role = new Role();
+//        role.setRoleName("EMPLOYEE");
+//        role.setDescription("EMPLOYEE");
+//        role.setCreateDate(date.toString());
+//        role.setModificationDate(date.toString());
+//        role.setLastModificationUser("Register Employee");
+        Role role = getRoleByRoleName("EMPLOYEE");
 
         UserRole userRole = new UserRole();
         userRole.setUser(user);
@@ -102,7 +115,7 @@ public class UserDAO extends AbstractHibernateDAO<User> {
         userRole.setModificationDate(date.toString());
         userRole.setLastModificationUser("Register Employee");
 
-        getCurrentSession().save("Role", role);
+        //getCurrentSession().save("Role", role);
         getCurrentSession().save("User", user);
         getCurrentSession().save("UserRole", userRole);
         //return userId;

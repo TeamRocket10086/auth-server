@@ -4,7 +4,7 @@ package com.bfs.authserver.pojo;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-
+import java.util.Set;
 
 
 @Entity
@@ -22,8 +22,8 @@ public class User implements Serializable {
     private String userName;
     private String modificationDate;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
-    private UserRole userRole;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<UserRole> userRoleSet;
 
 //    public UserRole getUserRole() {
 //        return userRole;

@@ -23,29 +23,7 @@ public class LoginController {
 
     private static final String jwtTokenCookieName = "JWT-TOKEN";
     private static final String signingKey = "signingKeyemployee";
-    //private static final Map<String, String> credentials = new HashMap<>();
 
-//    public LoginController() {
-//        credentials.put("admin@admin.com", "admin");
-//    }
-
-//    @RequestMapping("/login")
-//    public String login(){
-//        return "login";
-//    }
-//
-//    @PostMapping("/login")
-//    public String login(HttpServletResponse httpServletResponse, String username, String password, String redirect, Model model){
-//        if (username == null || !credentials.containsKey(username) || !credentials.get(username).equals(password)){
-//            model.addAttribute("error", "Invalid username or password!");
-//            return "login";
-//        }
-//
-//        String token = JwtUtil.generateToken(signingKey, username);
-//        CookieUtil.create(httpServletResponse, jwtTokenCookieName, token, false, -1, "localhost");
-//
-//        return "redirect:" + redirect;
-//    }
 
     @GetMapping("/login")
     public String login(){
