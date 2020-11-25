@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository("userDao")
@@ -25,14 +26,7 @@ public class UserDAO extends AbstractHibernateDAO<User> {
 
     public User getUserByName(String name) {
 
-//        List<User> userList = getCurrentSession().createQuery("from User").getResultList();
-//        return userList.get(0);
-//        String hql = "from User as user where user.username=:n";
-//        Query query = getCurrentSession().createQuery(hql);
-//        query.setParameter("n", name);
-//        return (User) query.getResultList().get(0);
         String hql = "from User where userName = ?1";
-        //Session s = sessionFactory.getCurrentSession();
 
         Session s = getCurrentSession();
         Query query = s.createQuery(hql);
@@ -45,6 +39,7 @@ public class UserDAO extends AbstractHibernateDAO<User> {
     }
 
     public User getUserByEmail(String email) {
+
         String hql = "from User where email = ?1";
         Session s = sessionFactory.getCurrentSession();
         Query query = s.createQuery(hql);
@@ -56,28 +51,9 @@ public class UserDAO extends AbstractHibernateDAO<User> {
         return list.get(0);
     }
 
-//    public User getUserByName(String username){
-//        CriteriaBuilder cb = getCurrentSession().getCriteriaBuilder();
-//        CriteriaQuery<User> cq = cb.createQuery(User.class);
-//
-//        cq.multiselect(
-//
-//        );
-//    }
-
-//    public User getUserByEmail(String email) {
-//        String hql = "from User where email = ?1";
-//        Session s = sessionFactory.getCurrentSession();
-//        Query query = s.createQuery(hql);
-//        query.setParameter(1, email);
-//        List<User> list = query.list();
-//        if(list == null || list.size() == 0)
-//            return null;
-//        System.out.println("Size is " + list.size());
-//        return list.get(0);
-//    }
 
     public User validateUser(String name, String pass) {
+
         User res = null;
         res = getUserByName(name);
         if(res != null){
@@ -89,28 +65,10 @@ public class UserDAO extends AbstractHibernateDAO<User> {
         }
         return res;
     }
-//    public User validateUser(String name, String email, String password) {
-//        User res = null;
-//        if(getUserByName(name) != null){
-//            res = getUserByName(name);
-//        }else{
-//            res = getUserByEmail(email);
-//        }
-//
-//        if(res != null && res.getPassword().equals(password)){
-//
-//            return res;
-//        }
-//        return null;
-//    }
 
-//    public String getRoleNameByName(String name){
-//        User user = getUserByName(name);
-//        Integer id = user.getId();
-//        String hql = "from UserRole where UserID = ?1";
-//    }
 
     public Role getRoleByUser(User user){
+
         String hql = "from UserRole where user = ?1";
         Query query = getCurrentSession().createQuery(hql);
         query.setParameter(1, user);
@@ -123,7 +81,32 @@ public class UserDAO extends AbstractHibernateDAO<User> {
         return role.getRoleName();
     }
 
-//    public String insert
+    public void saveUser(User user){
+
+        LocalDate date = LocalDate.now();
+        user.setCreateDate(date.toString());
+        user.setModificationDate(date.toString());
+
+        Role role = new Role();
+        role.setRoleName("EMPLOYEE");
+        role.setDescription("EMPLOYEE");
+        role.setCreateDate(date.toString());
+        role.setModificationDate(date.toString());
+        role.setLastModificationUser("Register Employee");
+
+        UserRole userRole = new UserRole();
+        userRole.setUser(user);
+        userRole.setRole(role);
+        userRole.setActiveFlag((byte) 1);
+        userRole.setCreateDate(date.toString());
+        userRole.setModificationDate(date.toString());
+        userRole.setLastModificationUser("Register Employee");
+
+        getCurrentSession().save("Role", role);
+        getCurrentSession().save("User", user);
+        getCurrentSession().save("UserRole", userRole);
+        //return userId;
+    }
 
 
 
